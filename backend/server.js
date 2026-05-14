@@ -9,11 +9,13 @@ app.use(express.json({ limit: '5mb' }));
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/postgres',
+  ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false
 });
 
 // Initialize DB tables
 const fs = require('fs');
-const initSql = fs.readFileSync('./init.sql').toString();
+const path = require('path');
+const initSql = fs.readFileSync(path.join(__dirname, 'init.sql')).toString();
 pool.query(initSql).catch(console.error);
 
 app.post('/api/auth/register', async (req, res) => {
