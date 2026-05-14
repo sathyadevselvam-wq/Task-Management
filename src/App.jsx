@@ -195,7 +195,7 @@ function LoginForm({ onLogin, onSwitch, text, sub }) {
     if (!email||!pw) { setErr("Please fill in all fields."); return; }
     setL(true);
     try {
-      const res = await fetch('http://localhost:3001/api/auth/login', {
+      const res = await fetch(`${API}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password: pw })
@@ -248,7 +248,7 @@ function RegisterForm({ onLogin, onSwitch, text, sub }) {
     try {
       const inits = f.name.trim().split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
       const user = { id:gId(), name:f.name.trim(), email:f.email, password:f.pw, initials:inits, photo:null, bio:"", role:"Member" };
-      const res = await fetch('http://localhost:3001/api/auth/register', {
+      const res = await fetch(`${API}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
