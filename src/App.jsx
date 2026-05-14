@@ -44,7 +44,10 @@ export default function App() {
       setCurrentUser(session.user);
       fetch(`${API}/tasks?userId=${session.user.id}`)
         .then(res => res.json())
-        .then(data => setAllTasks(data))
+        .then(data => {
+          if (Array.isArray(data)) setAllTasks(data);
+          else { console.error("Tasks fetch error:", data); setAllTasks([]); }
+        })
         .catch(console.error);
     }
   }, [session]);
