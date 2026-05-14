@@ -28,7 +28,8 @@ function seedTasks(uid) {
   ];
 }
 
-const API = 'http://localhost:3001/api';
+const API = 'https://task-management-hp2x.onrender.com/api';
+
 
 /* ─── Root ───────────────────────────────────────────────── */
 export default function App() {
