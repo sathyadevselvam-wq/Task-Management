@@ -30,7 +30,8 @@ app.post('/api/auth/register', async (req, res) => {
     );
     res.json({ id, name, email, password, initials, photo, bio, role });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("DB Error:", err);
+    res.status(500).json({ error: err.toString() });
   }
 });
 
@@ -41,7 +42,8 @@ app.post('/api/auth/login', async (req, res) => {
     if (result.rows.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
     res.json(result.rows[0]);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("DB Error:", err);
+    res.status(500).json({ error: err.toString() });
   }
 });
 
@@ -55,7 +57,8 @@ app.put('/api/users/:id', async (req, res) => {
     const result = await pool.query(`UPDATE users SET ${setClause} WHERE id = $1 RETURNING *`, [id, ...values]);
     res.json(result.rows[0]);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("DB Error:", err);
+    res.status(500).json({ error: err.toString() });
   }
 });
 
@@ -66,7 +69,8 @@ app.get('/api/tasks', async (req, res) => {
     const result = await pool.query('SELECT * FROM tasks WHERE user_id = $1', [userId]);
     res.json(result.rows);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("DB Error:", err);
+    res.status(500).json({ error: err.toString() });
   }
 });
 
@@ -79,7 +83,8 @@ app.post('/api/tasks', async (req, res) => {
     );
     res.json(req.body);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("DB Error:", err);
+    res.status(500).json({ error: err.toString() });
   }
 });
 
@@ -93,7 +98,8 @@ app.put('/api/tasks/:id', async (req, res) => {
     const result = await pool.query(`UPDATE tasks SET ${setClause} WHERE id = $1 RETURNING *`, [id, ...values]);
     res.json(result.rows[0]);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error("DB Error:", err);
+    res.status(500).json({ error: err.toString() });
   }
 });
 
